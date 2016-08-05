@@ -28,7 +28,7 @@ RUN sed -i 's/127\.0\.0\.1/0.0.0.0/g' ${I2P_DIR}/i2ptunnel.config && \
     printf "i2np.ipv4.firewalled=true\n" >> ${I2P_DIR}/router.config && \
     printf "i2np.ntcp.ipv6=false\n" >> ${I2P_DIR}/router.config && \
     printf "i2np.udp.ipv6=false\n" >> ${I2P_DIR}/router.config && \
-	printf "i2np.upnp.enable=false\n" >> ${I2P_DIR}/router.config
+    printf "i2np.upnp.enable=false\n" >> ${I2P_DIR}/router.config
 
 ##
 # Expose some ports used by I2P
