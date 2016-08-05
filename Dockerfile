@@ -5,8 +5,7 @@ MAINTAINER dzirtt
 #ENV I2P_VERSION 0.9.23-1~deb8u+1
 ENV I2P_DIR /usr/share/i2p
 ENV DEBIAN_FRONTEND noninteractive
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
+
 
 RUN echo "deb http://deb.i2p2.no/ jessie main" > /etc/apt/sources.list.d/i2p.list
 
@@ -47,6 +46,9 @@ RUN sed -i 's/127\.0\.0\.1/0.0.0.0/g' ${I2P_DIR}/i2ptunnel.config && \
 EXPOSE 4444 7657 6668 7659 7660
 #for persistence run with VOLUME uncomment or -v /youPath:/var/lib/i2p
 #VOLUME /var/lib/i2p
+
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US:en
 
 USER i2psvc
 ENTRYPOINT ["/usr/bin/i2prouter"]
