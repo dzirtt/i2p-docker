@@ -1,10 +1,14 @@
 This is an unofficial Dockerized I2P within a Debian Jessie image.
+I2prouter run from non-root user with save permission
 
 Run with the following:
+````
+docker run --name i2p_1 -v /home/i2p:/var/lib/i2p --rm -p 47657 -e "HOSTUID=`id -u i2psvc`" -e "HOSTGID=`id -g i2psvc`" i2p
+````
 
-````
-docker run --name i2p -p 7657:7657 -p 4444:4444 -p 6668:6668 kytv/i2p
-````
+i2psvc is user from host machine who own /home/i2p, you can use own user
+
+
 
 Publish how many (or how few) ports as you want. Ports exposed by default include
 
@@ -22,3 +26,4 @@ Publish how many (or how few) ports as you want. Ports exposed by default includ
 * 7661 — I2P-Bote SMTP
 * 7662 — I2P-Bote IMAP / Zzzot
 * 8998 — Monotone Proxy
+
