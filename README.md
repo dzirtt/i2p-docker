@@ -3,7 +3,7 @@ I2prouter run from non-root user with save permission
 
 Run with the following:
 ````
-docker run --name i2p_1 -v /home/i2p:/var/lib/i2p --rm -p 47657 -e "HOSTUID=`id -u i2psvc`" -e "HOSTGID=`id -g i2psvc`" i2p
+docker run --name i2p_1 -v /home/i2p:/var/lib/i2p --rm -p 4444:4444 -p 7657:7657 -e "HOSTUID=`id -u i2psvc`" -e "HOSTGID=`id -g i2psvc`" ninthgate/i2p-docker
 ````
 
 i2psvc is user from host machine who own /home/i2p, you can use own user
