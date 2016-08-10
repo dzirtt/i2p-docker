@@ -1,28 +1,43 @@
 #!/bin/bash
 
-#run procces in docker from specific user 
-#set permissions to bind folders to current user
+#docker entrypint script
+#for sync uid:gid host<->container
+
+#usage
+#add to build script ENV USER, ENV GROUP point to user from who start app in container
+#docker run -e "HOSTUID=`id -u USERNAME`" -e "HOSTGID=`id -g GROUP`" where user and group its host user:group
 
 set -e
-#set this through docker run -e "HOSTUID=${id -u USERNAME}" -e "{HOSTGID=${id -g GROUP}"
-#hostUID=$HOSTUID
-#hostGID=$HOSTGID
+changeFlag=0
 
 # allow the container to be started with `--user`
 if [ "$(id -u)" = '0' ]; then
 	
     #change container  UID:GID to HOST UID:GID
     #to save right permissions
-    echo -e "set $HOSTUID:$HOSTGID to $USER:$GROUP \n"
     
-    test -z $HOSTUID && echo -e "set HOSTUID ENV var, script not work properly"
-    test -z $HOSTGID && echo -e "set HOSTGID ENV var, script not work properly"
+    test -z $HOSTUID && { echo -e "set HOSTUID ENV var, script not work properly \nEXIT"; exit 1; }
+    test -z $HOSTGID && { echo -e "set HOSTGID ENV var, script not work properly \nEXIT"; exit 1; }
+    id -u $USER &> /dev/null || { echo -e "user $USER not exist in container, script not work properly \nEXIT"; exit 1; }
+    id -g $GROUP &> /dev/null || { echo -e "group $GROUP not exist in container, script not work properly \nEXIT"; exit 1; }
+   
+    if [ $HOSTUID -ne `id -u $USER` ]; then
+        usermod -o -u $HOSTUID $USER
+        echo -e "set $USER -uid-> $HOSTUID"
+        changeFlag=$((changeFlag+1))
+    fi
     
-    usermod -u $HOSTUID $USER
-    groupmod -g $HOSTGID $GROUP
-    
+    if [ $HOSTGID -ne `id -g $GROUP` ]; then
+        groupmod -o -g $HOSTGID $GROUP
+        echo -e "set $GROUP -gid-> $HOSTGID"
+        changeFlag=$((changeFlag+1))
+    fi
+
+    test $changeFlag -eq 0 && echo -e "nothing to be done \n$USER=`id -u $USER` $GROUP=`id -g $GROUP`"
+
     exec gosu $USER "$0" "$@"
+    exit 0
 fi
 
-#just run if exec app not $APPNAME
-exec "$@"
+exec "$0" "$@"
+exit 0
