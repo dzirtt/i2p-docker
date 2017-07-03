@@ -28,8 +28,6 @@ RUN set -x \
 	&& rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
 	&& chmod +x /usr/local/bin/gosu \
 	&& gosu nobody true
-
-RUN apt-get remove -y wget
     
 RUN rm -rf /var/lib/i2p/* && \
     chown -R $USER:$GROUP /var/lib/i2p && \
