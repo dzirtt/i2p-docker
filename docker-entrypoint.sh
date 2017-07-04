@@ -34,10 +34,11 @@ if [ "$(id -u)" = '0' ]; then
     fi
 
     test $changeFlag -eq 0 && echo -e "nothing to be done \n$USER=`id -u $USER` $GROUP=`id -g $GROUP`"
-
-    exec gosu $USER "$0" "$@"
+     
+    echo "exec gosu $USER $@"
+    exec gosu $USER "$@"
     exit 0
 fi
 
-exec "$0" "$@"
+exec "$@"
 exit 0
