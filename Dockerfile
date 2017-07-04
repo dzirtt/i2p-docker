@@ -14,7 +14,7 @@ RUN echo "deb http://deb.i2p2.no/ jessie main" > /etc/apt/sources.list.d/i2p.lis
 
 RUN apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-key 0x67ECE5605BCF1346 && \
     apt-get update && \
-    apt-get -y install --no-install-recommends i2p locales wget nano && \
+    apt-get -y install --no-install-recommends i2p locales wget nano curl && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/*
     
